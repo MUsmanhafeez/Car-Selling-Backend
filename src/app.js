@@ -26,8 +26,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Express middleware
 app.use(bodyParser.json());
 app.use(cors());
-
-// all routes 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Server is running" });
+});
+// all routes
 app.use("/car", carRoutes);
 app.use("/user", userRoutes);
 
