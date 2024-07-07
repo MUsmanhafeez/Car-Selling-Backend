@@ -2,15 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv"); // Load environment variables from .env
-const { connectToDatabase } = require("./config/database");
+const { connectToDatabase } = require("./src/config/database");
 const cors = require("cors");
-const errorHandler = require("./middleware/errorHandler");
+const errorHandler = require("./src/middleware/errorHandler");
 // Load environment variables from .env file
 dotenv.config();
 
 // Import routes and controllers
-const userRoutes = require("./modules/user/userRoute");
-const carRoutes = require("./modules/car/carRoute");
+const userRoutes = require("./src/modules/user/userRoute");
+const carRoutes = require("./src/modules/car/carRoute");
 
 const app = express();
 
@@ -25,7 +25,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Express middleware
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: "*", // You can specify the allowed origins here. '*' allows all origins.
+  methods: ["GET", "POST", "PUT", "DELETE"], // Specify the allowed HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Specify the allowed headers
+};
+
+app.use(cors(corsOptions));
 app.get("/hello", (req, res) => {
   res.status(200).json({ message: "Server is running" });
 });
