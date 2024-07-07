@@ -40,7 +40,7 @@ const login = async (req, res) => {
     }
 
     // Check password match
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await user.comparePassword(password,user.password);
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
